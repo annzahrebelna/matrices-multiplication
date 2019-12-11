@@ -7,7 +7,7 @@ public class SequentialMatricesMultiplier extends AbstractMatricesMultiplier {
     }
 
     @Override
-    public byte[][] multiplyMatrices(Matrix m1, Matrix m2) {
+    public Matrix multiplyMatrices(Matrix m1, Matrix m2) {
         short n = m1.getN();
         short m = m2.getM();
         byte[][] result = new byte[n][m];
@@ -17,6 +17,6 @@ public class SequentialMatricesMultiplier extends AbstractMatricesMultiplier {
                 result[i][j] = value;
             }
         }
-        return result;
+        return new Matrix(n, m, result);
     }
 }

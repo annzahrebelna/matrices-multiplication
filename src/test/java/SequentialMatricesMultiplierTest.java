@@ -17,33 +17,28 @@ public class SequentialMatricesMultiplierTest {
 
     @Before
     public void setUp() {
-        byte b1 = (byte) 1;
-        byte b0 = (byte) 0;
         when(byteSupplier.get())
                 //1st matrix
-                .thenReturn(b1).thenReturn(b1)
-                .thenReturn(b1).thenReturn(b0)
+                .thenReturn((byte) 1).thenReturn((byte) 1)
+                .thenReturn((byte) 1).thenReturn((byte) 0)
                 //2d matrix
-                .thenReturn(b1).thenReturn(b0)
-                .thenReturn(b1).thenReturn(b1);
+                .thenReturn((byte) 1).thenReturn((byte) 0)
+                .thenReturn((byte) 1).thenReturn((byte) 1);
     }
 
     @Test
     public void test() {
         short n = 2;
-        SquareMatrix matrix1 = new SquareMatrix(n);
-        matrix1.initialize(byteSupplier);
-        SquareMatrix matrix2 = new SquareMatrix(n);
-        matrix2.initialize(byteSupplier);
+        Matrix matrix1 = Matrix.getSquareMatrix(n, byteSupplier);
+        Matrix matrix2 = Matrix.getSquareMatrix(n, byteSupplier);
 
         MatricesMultiplier mm = new SequentialMatricesMultiplier();
-        byte[][] actual = mm.multiply(matrix1, matrix2);
+        Matrix actual = mm.multiply(matrix1, matrix2);
 
-        byte[][] expected = new byte[n][n];
-        expected[0][0] = 0; //1&1=0 0^0=0
-        expected[0][1] = 1;
-        expected[1][0] = 1;
-        expected[1][1] = 0;
-        assertArrayEquals(expected, actual);
+        byte[][] expected = new byte[][]{
+                new byte[]{ (byte) 0, (byte) 1 },
+                new byte[]{ (byte) 1, (byte) 0 }
+        };
+        assertArrayEquals(expected, actual.getData());
     }
 }

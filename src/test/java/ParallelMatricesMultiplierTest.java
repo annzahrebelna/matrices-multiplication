@@ -2,31 +2,29 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ParallelMatricesMultiplierTest {
 
     @Test
     public void test() {
-        short n = 1000;
-        SquareMatrix matrix1 = new SquareMatrix(n);
-        matrix1.initialize();
-        SquareMatrix matrix2 = new SquareMatrix(n);
-        matrix2.initialize();
+        short n = 100;
+        Matrix matrix1 = Matrix.getSquareMatrix(n);
+        Matrix matrix2 = Matrix.getSquareMatrix(n);
 
         MatricesMultiplier mmExpected = new SequentialMatricesMultiplier();
         long startSeq = System.currentTimeMillis();
-        byte[][] expected = mmExpected.multiply(matrix1, matrix2);
+        Matrix expected = mmExpected.multiply(matrix1, matrix2);
         long endSeq = System.currentTimeMillis();
         System.out.println("sequential: " + (endSeq - startSeq));
 
         MatricesMultiplier mm = new ParallelMatricesMultiplier();
         long startPar = System.currentTimeMillis();
-        byte[][] actual = mm.multiply(matrix1, matrix2);
+        Matrix actual = mm.multiply(matrix1, matrix2);
         long endPar = System.currentTimeMillis();
         System.out.println("parallel: " + (endPar - startPar));
 
-        assertArrayEquals(expected, actual);
+        assertArrayEquals(expected.getData(), actual.getData());
     }
 }

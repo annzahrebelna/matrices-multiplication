@@ -1,3 +1,3 @@
 public interface MatricesMultiplier {
-    byte[][] multiply(Matrix m1, Matrix m2);
+    Matrix multiply(Matrix m1, Matrix m2);
 }

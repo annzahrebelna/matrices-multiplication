@@ -4,12 +4,12 @@ public abstract class AbstractMatricesMultiplier implements MatricesMultiplier {
     private long finish;
 
     @Override
-    public byte[][] multiply(Matrix m1, Matrix m2) {
+    public Matrix multiply(Matrix m1, Matrix m2) {
         if (!m1.canBeMultiplied(m2)) {
             throw new IllegalArgumentException("Matrices can not be multiplied");
         }
         start = System.currentTimeMillis();
-        byte[][] result = multiplyMatrices(m1, m2);
+        Matrix result = multiplyMatrices(m1, m2);
         finish = System.currentTimeMillis();
         return result;
     }
@@ -18,5 +18,5 @@ public abstract class AbstractMatricesMultiplier implements MatricesMultiplier {
         return finish - start;
     }
 
-    protected abstract byte[][] multiplyMatrices(Matrix m1, Matrix m2);
+    protected abstract Matrix multiplyMatrices(Matrix m1, Matrix m2);
 }

@@ -13,7 +13,7 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
     }
 
     @Override
-    protected byte[][] multiplyMatrices(Matrix m1, Matrix m2) {
+    protected Matrix multiplyMatrices(Matrix m1, Matrix m2) {
         ExecutorService executorService = Executors.newWorkStealingPool();
         short n = m1.getN();
         short m = m2.getM();
@@ -33,7 +33,7 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
         } catch (InterruptedException e) {
             throw new RuntimeException("Execution was interrupted.");
         }
-        return result;
+        return new Matrix(n, m, result);
     }
 
     @Data

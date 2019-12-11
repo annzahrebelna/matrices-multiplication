@@ -3,10 +3,8 @@ public class Main {
     public static void main(String[] args) {
         short n = getValidSize(args);
 
-        SquareMatrix matrix1 = new SquareMatrix(n);
-        matrix1.initialize();
-        SquareMatrix matrix2 = new SquareMatrix(n);
-        matrix2.initialize();
+        Matrix matrix1 = Matrix.getSquareMatrix(n);
+        Matrix matrix2 = Matrix.getSquareMatrix(n);
 
         AbstractMatricesMultiplier sequentialMultiplier = new SequentialMatricesMultiplier();
         System.out.println("Sequential multiplication is running...");
