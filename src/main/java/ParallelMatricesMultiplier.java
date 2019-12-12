@@ -1,7 +1,9 @@
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
 
@@ -18,9 +20,9 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
         short n = m1.getN();
         short m = m2.getM();
         result = new byte[n][m];
-
+        byte[][] transposed = m2.getTransposedData();
         for (short i=0; i<n; i++) {
-            Runnable task = new MultiplyRowOnMatrixTask(i, n, m1.getRow(i), m2);
+            Runnable task = new MultiplyRowOnMatrixTask(i, n, m1.getRow(i), transposed);
             executorService.submit(task);
         }
         executorService.shutdown();
@@ -43,14 +45,15 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
         private short rowIndex;
         private short rowSize;
         private byte[] row;
-        private Matrix matrix;
+        private byte[][] matrix;
 
         @Override
         public void run() {
-            for (short j=0; j<matrix.getM(); j++) {
-                byte value = arraysMultiplier.multiply(rowSize, row, matrix.getColumn(j));
-                result[rowIndex][j] = value;
+            byte[] resultRow = new byte[rowSize];
+            for (int i=0; i<rowSize; i++) {
+                resultRow[i] = arraysMultiplier.multiply(rowSize, row, matrix[i]);
             }
+            result[rowIndex] = resultRow;
         }
     }
 }

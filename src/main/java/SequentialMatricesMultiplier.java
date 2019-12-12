@@ -1,9 +1,13 @@
 public class SequentialMatricesMultiplier extends AbstractMatricesMultiplier {
 
-    private ArraysMultiplier arraysMultiplier;
+    private final ArraysMultiplier arraysMultiplier;
 
     public SequentialMatricesMultiplier() {
         arraysMultiplier = new Modulo2ArraysMultiplier();
+    }
+
+    public SequentialMatricesMultiplier(ArraysMultiplier arraysMultiplier) {
+        this.arraysMultiplier = arraysMultiplier;
     }
 
     @Override

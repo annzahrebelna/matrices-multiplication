@@ -42,6 +42,16 @@ public final class Matrix {
         return copyArray(data);
     }
 
+    public byte[][] getTransposedData() {
+        byte[][] transposedData = new byte[m][n];
+        for (short i=0; i<n; i++) {
+            for (short j=0; j<m; j++) {
+                transposedData[i][j] = data[j][i];
+            }
+        }
+        return transposedData;
+    }
+
     public byte[] getRow(short i) {
         return data[i].clone();
     }
