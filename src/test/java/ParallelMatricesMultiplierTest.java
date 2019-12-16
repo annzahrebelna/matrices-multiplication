@@ -1,3 +1,7 @@
+import matrix.AbstractMatricesMultiplier;
+import matrix.Matrix;
+import matrix.ParallelMatricesMultiplier;
+import matrix.SequentialMatricesMultiplier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

@@ -1,3 +1,5 @@
+package matrix;
+
 import java.util.Arrays;
 
 import static utils.MyCollectors.toByteArray;

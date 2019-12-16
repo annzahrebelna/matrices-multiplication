@@ -1,3 +1,6 @@
+import matrix.ArraysMultiplier;
+import matrix.Matrix;
+import matrix.SequentialMatricesMultiplier;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

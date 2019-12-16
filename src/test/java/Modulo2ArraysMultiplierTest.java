@@ -1,3 +1,4 @@
+import matrix.Modulo2ArraysMultiplier;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

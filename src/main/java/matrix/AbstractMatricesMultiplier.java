@@ -1,3 +1,5 @@
+package matrix;
+
 public abstract class AbstractMatricesMultiplier implements MatricesMultiplier {
 
     private long start;

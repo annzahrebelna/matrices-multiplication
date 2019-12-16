@@ -1,3 +1,5 @@
+package matrix;
+
 public class Modulo2ArraysMultiplier implements ArraysMultiplier {
     @Override
     public byte multiply(short arraysSize, byte[] array1, byte[] array2) {
