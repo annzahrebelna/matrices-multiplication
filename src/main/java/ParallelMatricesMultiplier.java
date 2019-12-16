@@ -1,9 +1,10 @@
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.Arrays;
+import java.util.concurrent.*;
+
+import static utils.MyCollectors.toByteArray;
 
 public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
 
@@ -20,12 +21,17 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
         short n = m1.getN();
         short m = m2.getM();
         result = new byte[n][m];
-        byte[][] transposed = m2.getTransposedData();
+        byte[][] transposedM2 = m2.getTransposedData();
         for (short i=0; i<n; i++) {
-            Runnable task = new MultiplyRowOnMatrixTask(i, n, m1.getRow(i), transposed);
+            Runnable task = new MultiplyRowOnMatrixTask(i, n, m1.getRow(i), transposedM2);
             executorService.submit(task);
         }
         executorService.shutdown();
+        waitForTasksBeingExecuted(executorService);
+        return new Matrix(n, m, result);
+    }
+
+    private void waitForTasksBeingExecuted(ExecutorService executorService) {
         boolean isDone;
         try {
             isDone = executorService.awaitTermination(1, TimeUnit.HOURS);
@@ -35,7 +41,6 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
         } catch (InterruptedException e) {
             throw new RuntimeException("Execution was interrupted.");
         }
-        return new Matrix(n, m, result);
     }
 
     @Data
@@ -45,14 +50,13 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
         private short rowIndex;
         private short rowSize;
         private byte[] row;
-        private byte[][] matrix;
+        private byte[][] transposedMatrix;
 
         @Override
         public void run() {
-            byte[] resultRow = new byte[rowSize];
-            for (int i=0; i<rowSize; i++) {
-                resultRow[i] = arraysMultiplier.multiply(rowSize, row, matrix[i]);
-            }
+            byte[] resultRow = Arrays.stream(transposedMatrix)
+                    .map(row2 -> arraysMultiplier.multiply(rowSize, row, row2))
+                    .collect(toByteArray());
             result[rowIndex] = resultRow;
         }
     }

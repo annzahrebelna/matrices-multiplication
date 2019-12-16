@@ -13,17 +13,13 @@ public class ParallelMatricesMultiplierTest {
         Matrix matrix1 = Matrix.getSquareMatrix(n);
         Matrix matrix2 = Matrix.getSquareMatrix(n);
 
-        MatricesMultiplier mmExpected = new SequentialMatricesMultiplier();
-        long startSeq = System.currentTimeMillis();
+        AbstractMatricesMultiplier mmExpected = new SequentialMatricesMultiplier();
         Matrix expected = mmExpected.multiply(matrix1, matrix2);
-        long endSeq = System.currentTimeMillis();
-        System.out.println("sequential: " + (endSeq - startSeq));
+        System.out.println("sequential: " + mmExpected.getTimeSpent());
 
-        MatricesMultiplier mm = new ParallelMatricesMultiplier();
-        long startPar = System.currentTimeMillis();
+        AbstractMatricesMultiplier mm = new ParallelMatricesMultiplier();
         Matrix actual = mm.multiply(matrix1, matrix2);
-        long endPar = System.currentTimeMillis();
-        System.out.println("parallel: " + (endPar - startPar));
+        System.out.println("parallel: " + mm.getTimeSpent());
 
         assertArrayEquals(expected.getData(), actual.getData());
     }

@@ -1,3 +1,7 @@
+import java.util.Arrays;
+
+import static utils.MyCollectors.toByteArray;
+
 public class SequentialMatricesMultiplier extends AbstractMatricesMultiplier {
 
     private final ArraysMultiplier arraysMultiplier;
@@ -11,16 +15,16 @@ public class SequentialMatricesMultiplier extends AbstractMatricesMultiplier {
     }
 
     @Override
-    public Matrix multiplyMatrices(Matrix m1, Matrix m2) {
+    protected Matrix multiplyMatrices(Matrix m1, Matrix m2) {
         short n = m1.getN();
         short m = m2.getM();
-        byte[][] result = new byte[n][m];
-        for (short i=0; i<n; i++) {
-            for (short j=0; j<m; j++) {
-                byte value = arraysMultiplier.multiply(n, m1.getRow(i), m2.getColumn(j));
-                result[i][j] = value;
-            }
-        }
+
+        byte[][] transposed = m2.getTransposedData();
+        byte[][] result = Arrays.stream(m1.getData())
+                .map(row -> Arrays.stream(transposed)
+                        .map(row2 -> arraysMultiplier.multiply(n, row, row2))
+                        .collect(toByteArray()))
+                .toArray(byte[][]::new);
         return new Matrix(n, m, result);
     }
 }
