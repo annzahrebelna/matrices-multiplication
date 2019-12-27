@@ -24,7 +24,7 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
         short m = m2.getM();
         result = new byte[n][m];
         byte[][] transposedM2 = m2.getTransposedData();
-        for (short i=0; i<n; i++) {
+        for (int i=0; i<n; i++) {
             Runnable task = new MultiplyRowOnMatrixTask(i, n, m1.getRow(i), transposedM2);
             executorService.submit(task);
         }
@@ -49,7 +49,7 @@ public class ParallelMatricesMultiplier extends AbstractMatricesMultiplier {
     @AllArgsConstructor
     private class MultiplyRowOnMatrixTask implements Runnable {
 
-        private short rowIndex;
+        private int rowIndex;
         private short rowSize;
         private byte[] row;
         private byte[][] transposedMatrix;

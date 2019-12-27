@@ -46,24 +46,16 @@ public final class Matrix {
 
     public byte[][] getTransposedData() {
         byte[][] transposedData = new byte[m][n];
-        for (short i=0; i<n; i++) {
-            for (short j=0; j<m; j++) {
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
                 transposedData[i][j] = data[j][i];
             }
         }
         return transposedData;
     }
 
-    public byte[] getRow(short i) {
+    public byte[] getRow(int i) {
         return data[i].clone();
-    }
-
-    public byte[] getColumn(short j) {
-        byte[] column = new byte[m];
-        for (short i=0; i<n; i++) {
-            column[i] = data[i][j];
-        }
-        return column;
     }
 
     public boolean canBeMultiplied(Matrix matrix) {
@@ -80,8 +72,8 @@ public final class Matrix {
     }
 
     private void initialize(Supplier<Byte> byteSupplier) {
-        for (short i=0; i<n; i++) {
-            for (short j=0; j<m; j++) {
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
                 data[i][j] = byteSupplier.get();
             }
         }
